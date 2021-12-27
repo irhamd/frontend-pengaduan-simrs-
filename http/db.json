@@ -1,0 +1,147 @@
+{
+  "dosen": [
+    {
+      "nama": "Zainal Abidin",
+      "email": "Abi@gmail.com",
+      "no_telp": "38203820320",
+      "username": "Enal",
+      "password": "12345678",
+      "id": 1
+    }
+  ],
+  "login": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin",
+      "role": "a"
+    },
+    {
+      "id": 2,
+      "username": "dosen",
+      "password": "dosen",
+      "role": "a"
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "accountId": "user",
+      "id": 3
+    }
+  ],
+  "matakuliah": [
+    {
+      "namamatakuliah": "Katkul 1",
+      "sks": 4,
+      "deskripsi": "Oke Yaa",
+      "id": 3
+    },
+    {
+      "namamatakuliah": "Sistem Informasi Akuntansi",
+      "sks": 4,
+      "deskripsi": "Apa aja",
+      "id": 6
+    },
+    {
+      "namamatakuliah": "Matkul 2",
+      "sks": 6,
+      "deskripsi": "OOO",
+      "id": 7
+    },
+    {
+      "namamatakuliah": "Beass Matakuliah",
+      "sks": 6,
+      "deskripsi": "45",
+      "id": 8
+    },
+    {
+      "namamatakuliah": "Langsung Lulus aja",
+      "sks": 5,
+      "deskripsi": "66",
+      "id": 9
+    },
+    {
+      "namamatakuliah": "okkee",
+      "sks": 3,
+      "deskripsi": "gggg",
+      "id": 10
+    }
+  ],
+  "topic": [
+    {
+      "id_matakuliah": 4,
+      "topic": "Topinya apa saja 1",
+      "deskripsi": "Oke Yaa",
+      "id": 1
+    },
+    {
+      "id_matakuliah": 4,
+      "topic": "Topic 11",
+      "deskripsi": "bess 11",
+      "id": 2
+    },
+    {
+      "id_matakuliah": 4,
+      "topic": "Topic 22",
+      "deskripsi": "Bebass 22",
+      "id": 3
+    }
+  ],
+  "jadwal": [
+    {
+      "id_topik": 4,
+      "waktumulai": "2021-10-06 08:00",
+      "waktuselesai": "2021-10-06 10:30",
+      "id": 1
+    },
+    {
+      "id_topik": 4,
+      "waktumulai": "2021-10-12 08:00",
+      "waktuselesai": "2021-10-12 10:30",
+      "id": 2
+    },
+    {
+      "id_topik": 4,
+      "waktumulai": "2021-10-21 08:00",
+      "waktuselesai": "2021-10-21 10:30",
+      "id": 3
+    }
+  ],
+  "mahasiswa": [
+    {
+      "id": 1,
+      "nama": "Angling Darma",
+      "nim": 744555
+    },
+    {
+      "id": 2,
+      "nama": "Wiro Sableng",
+      "nim": 664455
+    },
+    {
+      "id": 3,
+      "nama": "Faizard",
+      "nim": 664455
+    },
+    {
+      "id": 4,
+      "nama": "Arya Kamandanu",
+      "nim": 899067
+    },
+    {
+      "id": 5,
+      "nama": "Nini Pelet",
+      "nim": 775633
+    },
+    {
+      "id": 6,
+      "nama": "Mak Lampir",
+      "nim": 778987
+    },
+    {
+      "id": 7,
+      "nama": "Sembara",
+      "nim": 632321
+    }
+  ]
+}

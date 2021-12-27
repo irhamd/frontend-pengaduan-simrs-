@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'BrothersCircus';
+    src: URL('./BrothersCircus.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'MilaDemo';
+    src: URL('./MilaDemo.otf') format('truetype');
+
+}
+
+
+@font-face {
+    font-family: 'Bradley';
+    src: URL('./Bradley.ttf') format('truetype');
+
+}
+
+
+@font-face {
+    font-family: 'AdventPro';
+    src: URL('./AdventPro.ttf') format('truetype');
+
+}
+
+@font-face {
+    font-family: 'GolvinOutline';
+    src: URL('./GolvinOutline.otf') format('truetype');
+
+}
+
+
+
