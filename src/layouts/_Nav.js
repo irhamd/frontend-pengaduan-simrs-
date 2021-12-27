@@ -44,14 +44,14 @@ function _Nav() {
   return (
     <_Row style={{ background: "#0F9A53", zIndex: "999", marginTop: "10px" }}>
       <_Col sm={10} style={{ float: "right", padding: "5px 30px", display: "flex" }}>
-        <Image height={50} src={logo1} preview={false} />
+        <img height={50} src={logo1} />
         <h3 style={{ fontFamily: "arial", fontWeight: "bolder", color: "#ebdbdb", marginLeft: "20px" }}> SIMPEL (SISTEM INFORMASI PELAYANAN SIMRS) </h3> <br />
         <p style={{ position: "relative", fontSize :"18px", fontWeight :"bold",  left: "-500px", top: "20px" }} > RSUD Kota Mataram </p>
       </_Col>
       <_Col >
         <div style={{ backgroundImage: "linear-gradient(to right, #0f9a53 10% , #10d972 30%)", marginRight: "-10px", height: "100%", padding: "10px", display: "flex" }}>
 
-          <Image height={40} src={dataUser.profile_image} preview={false} /> &nbsp;
+          <img height={40} src={dataUser.profile_image}  /> &nbsp;
           <p style={{ marginTop: "5px" }}> <b> {dataUser.nama} </b> </p>
         </div>
       </_Col>

@@ -82,8 +82,8 @@ function Pengaduan() {
       title: "",
       width: 250,
       render: (_, rc) => (
-        <div style={{ padding: "10px", textAlign: "right", fontWeight :"bold" }}>
-          {!rc.waktu_selesai &&   getBetweenDate(rc.created_at, "")}
+        <div style={{ padding: "10px", textAlign: "right", fontWeight: "bold" }}>
+          {!rc.waktu_selesai && getBetweenDate(rc.created_at, "")}
         </div>
       ),
     },
@@ -151,7 +151,9 @@ function Pengaduan() {
       width: 200,
       render: (_, rc) => (
         <div>
-          <Image height={100} src={baseRoute + "Pengaduan/" + rc.foto_sebelum} />
+          {rc.foto_sebelum &&
+            <Image height={100} src={baseRoute + "Pengaduan/" + rc.foto_sebelum} />
+          }
         </div>
       ),
     },
@@ -160,7 +162,9 @@ function Pengaduan() {
       width: 200,
       render: (_, rc) => (
         <div>
-          <Image height={100} src={baseRoute + "Pengaduan/" + rc.foto_sesudah} />
+          {rc.foto_sesudah &&
+            <Image height={100} src={baseRoute + "Pengaduan/" + rc.foto_sesudah} />
+          }
         </div>
       ),
     },
@@ -168,7 +172,7 @@ function Pengaduan() {
       title: "Respond Time",
       width: 200,
       render: (_, rc) => (
-        <div style={{ background: rc.waktu_selesai && "orange", padding: "10px", textAlign: "right", fontWeight :"bold" }}>
+        <div style={{ background: rc.waktu_selesai && "orange", padding: "10px", textAlign: "right", fontWeight: "bold" }}>
           {getBetweenDate(rc.created_at, rc.waktu_selesai)}
         </div>
       ),
@@ -216,7 +220,8 @@ function Pengaduan() {
   const [FormData] = Form.useForm()
   const loadData = (val) => {
     var filt = {
-      tglawal: moment(val.tglawal).format('YYYY-MM-01 00:00'),
+      ...val,
+      tglawal: moment(val.tglawal).format('YYYY-MM-DD 00:00'),
       tglakhir: moment(val.tglakhir).format('YYYY-MM-DD 23:59'),
     }
     _Api.get("pengaduan-getKeluhanPasien", { params: filt }).then(res => {
@@ -296,7 +301,7 @@ function Pengaduan() {
 
         <_TitleBar label=" DATA PENGADUAN SIMRS RSUD KOTA MATARAM" />
         <p style={{ marginBlock: "10px" }}></p>
-        <Form layout={"vertical"} form={FormData} onFinish={(e) => loadData(e, "1")}>
+        <Form layout={"vertical"} form={FormData} onFinish={(e) => loadData(e)}>
           <_Row style={{ marginBottom: "400px" }}>
             <_Date sm={2} label="Tanggal Pengaduan" showTime format={"DD-MM-YYYY  HH:mm"} name="tglawal" />
             <_Date sm={2} label=" " format={"DD-MM-YYYY HH:mm"} showTime name="tglakhir" option={petugas} />
@@ -304,15 +309,7 @@ function Pengaduan() {
             <_Select label="Ruangan" name="lokasi_pasar" option={lokasiPasar} sm={3} val="id" caption="ruangan" />
             <_Switch label="Close" name="veri" sm={1} />
 
-            <_Button
-              sm={1}
-              icon={<DownloadOutlined />}
-              primary
-              submit
-              style={{ marginTop: "24px" }}
-              title=""
-
-            />
+            <_Button sm={1} icon={<DownloadOutlined />} primary submit style={{ marginTop: "24px" }} title="" />
           </_Row>
         </Form>
         <Table
