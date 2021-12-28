@@ -9,7 +9,7 @@ import {
 import moment from "moment";
 import { fitrah, formatNumber, getBetweenDate } from "../../services/Text/GlobalText";
 import { _Col, _Row } from "../../services/Forms/LayoutBootstrap";
-import { CheckOutlined, ClusterOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileDoneOutlined, FundViewOutlined, MinusCircleTwoTone, PlusCircleTwoTone, SecurityScanOutlined, SyncOutlined, UpCircleOutlined } from "@ant-design/icons";
+import { CheckOutlined, ClusterOutlined, DeleteColumnOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileDoneOutlined, FundViewOutlined, MinusCircleTwoTone, PlusCircleTwoTone, SecurityScanOutlined, SyncOutlined, UpCircleOutlined } from "@ant-design/icons";
 import _Api, { baseRoute, baseURL } from "../../services/Api/_Api";
 import { _Toastr } from "../../services/Toastr/Notify/_Toastr";
 import _Autocomplete from "../../services/Forms/_Autocomplete";
@@ -116,7 +116,16 @@ function Pengaduan() {
       render: (_, rc) => (
         <div>
           <Button type="primary" icon={<EditOutlined />} onClick={() => pilihPegawai(rc)} /> &nbsp;
-          <Button type="primary" icon={<FundViewOutlined />} />
+          <Popconfirm
+            title="Hapus tugas ???"
+            onConfirm={() => hapusTugas(rc.id)}
+            // onCancel={cancel}
+            okText="Ya"
+            cancelText="Batal"
+          >
+            <Button danger type="primary" icon={<DeleteColumnOutlined />} />
+          </Popconfirm>
+
         </div>
       ),
     },
@@ -241,6 +250,14 @@ function Pengaduan() {
     setloadingDel(true)
     _Api.post("getMasterData", { "masterData": "pegawai_m" }).then(res => {
       setdataPegawai(res.data)
+      setloadingDel(false)
+    })
+  }
+
+  const hapusTugas = (id) => {
+    setloadingDel(true)
+    _Api.delete("pengaduan-hapusTugas?id=" + id).then(res => {
+      FormData.submit()
       setloadingDel(false)
     })
   }
