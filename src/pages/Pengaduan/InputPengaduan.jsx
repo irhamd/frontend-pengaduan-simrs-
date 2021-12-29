@@ -42,10 +42,9 @@ function InputPengaduan(pr) {
       {
         _Toastr.success("Suksess ...")
         formData.resetFields()
-
           var objmessage = {
             "title": val.isipengaduan.toUpperCase() ,
-            "body": "Nifas",
+            "body": val.unitkerja,
             "token": res.data.token
           }
         _Api.post(`notif-sendNotification`, objmessage).then(res => {

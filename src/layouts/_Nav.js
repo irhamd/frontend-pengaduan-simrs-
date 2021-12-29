@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import srcAvatar from "../assets/img/avatars/avatar.jpg";
 import { dataUser } from "../services/Cache/Auth";
-import { Image, Menu } from 'antd';
+import { Button, Image, Menu, Popover } from 'antd';
 import { Link } from "react-router-dom";
 
 import { UserSwitchOutlined, LogoutOutlined, BarChartOutlined, FileProtectOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -14,9 +14,12 @@ import logo4 from './../assets/img/icons/logo4.png'
 import { globalText } from "../services/Text/GlobalText";
 import { routes, routes_admin } from "../routing/routes";
 import { Cache } from "../services/Cache";
+import { _Button } from "../services/Forms/Forms";
 
 function _Nav() {
   const { SubMenu } = Menu;
+
+  const [showlogout, setshowlogout] = useState(false)
 
   var rout = []
   var ses = Cache.get(globalText.x_auth_resu)
@@ -42,21 +45,44 @@ function _Nav() {
   // });
 
   return (
-    <_Row style={{ background: "#0F9A53", zIndex: "999", marginTop: "10px" }}>
-      <_Col sm={10} style={{ float: "right", padding: "5px 30px", display: "flex" }}>
-        <img height={50} src={logo1} />
-        <h3 style={{ fontFamily: "arial", fontWeight: "bolder", color: "#ebdbdb", marginLeft: "20px" }}> SIMPEL (SISTEM INFORMASI PELAYANAN SIMRS) </h3> <br />
-        <p style={{ position: "relative", fontSize :"18px", fontWeight :"bold",  left: "-500px", top: "20px" }} > RSUD Kota Mataram </p>
-      </_Col>
-      <_Col >
-        <div style={{ backgroundImage: "linear-gradient(to right, #0f9a53 10% , #10d972 30%)", marginRight: "-10px", height: "100%", padding: "10px", display: "flex" }}>
+    <_Row style={{ background: "#0F9A53", zIndex: "999", marginTop: "10px", height :"50px" }}>
+      <_Col sm={10} style={{ float: "right", display: "flex" }}>
+        <_Row style={{ width: "100%" }}>
 
-          <img height={40} src={dataUser.profile_image}  /> &nbsp;
-          <p style={{ marginTop: "5px" }}> <b> {dataUser.nama} </b> </p>
-        </div>
-      </_Col>
+          <_Col sm={6} style={{ display: "flex" }}>
+            <div style={{ float: "right", paddingTop: "3px", marginRight: "10px" }}>
+              <Image height={40} src={logo1} preview={false} />
+            </div>
+            <div>
+              <p style={{ fontFamily: "arial", fontWeight: "bolder", fontSize: "20px", color: "#ebdbdb", width: "100%" }}> SIMPEL <span className="inilabel"> (SISTEM INFORMASI PELAYANAN SIMRS) </span> </p>
+              <p style={{ marginTop: "-27px" }} > RSUD Kota Mataram </p>
+            </div>
+           
+          </_Col>
 
-    </_Row>
+        </_Row>
+
+      </_Col >
+
+      {/* <_Col sm={2} className="userMenu" style={{height :"50px"}}>
+        <Popover
+          content={<Link to="/login" > <Button style={{ borderColor: "white" }} icon={<LogoutOutlined />}>  Logout </Button> </Link>}
+          // title="Title"
+          trigger="click"
+          visible={showlogout}
+          onVisibleChange={() => setshowlogout(!showlogout)}
+        >
+          <div style={{
+            backgroundImage: "linear-gradient(to right, #0f9a53 10% , yellow 20%)", cursor: "pointer",
+            marginRight: "-20px", paddingTop: "5px", height: "100%", paddingLeft: "100px", display: "flex"
+          }}>
+
+            <Image height={40} src={dataUser.profile_image} preview={false} /> &nbsp;
+            <p style={{ marginTop: "5px" }}> <b> {dataUser.nama} </b> </p>
+          </div>
+        </Popover>
+      </_Col> */}
+    </_Row >
 
   );
 }

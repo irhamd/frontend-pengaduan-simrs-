@@ -16,6 +16,7 @@ import {
   AlignRightOutlined,
   BarChartOutlined,
   LogoutOutlined,
+  CopyOutlined,
 } from '@ant-design/icons';
 
 // import logo1 from './../assets/img/icons/logo1.png'
@@ -24,14 +25,7 @@ import {
 // import logo4 from './../assets/img/icons/logo4.png'
 import { useState } from "react";
 
-function MenuPetugasPasar() {
-  var rout = []
-  var ses = Cache.get(globalText.x_auth_resu)
-  var auth = {}
-  if (ses) {
-    auth = JSON.parse(ses)
-    rout = auth.role == 'Dosen' ? routes : routes_admin
-  }
+function MenuUtama() {
 
   const [collapsed, setcollapsed] = useState(false)
 
@@ -47,23 +41,37 @@ function MenuPetugasPasar() {
         {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
       </Button>
       <Menu
-        defaultOpenKeys={['sub2', 'sub3']}
+        defaultOpenKeys={['sub2', 'sub3', 'sub4']}
         mode="inline"
         theme="dark"
         style={{ background: "#4b545c", color: "white", fontWeight: "bold", fontFamily: "arial" }}
-        inlineCollapsed={MenuUnfoldOutlined}
+        inlineCollapsed={collapsed}
       >
         <Item key="1" icon={<BarChartOutlined />}>
           <Link to="home" > Dashboard </Link>
         </Item>
-       
-        <Item key="672" icon={<LogoutOutlined />}>
+
+
+        <SubMenu key="sub3" icon={<SlidersOutlined />} title="Pengaduan">
+          <Item icon={<AlignRightOutlined />} key="sub3_1"> <Link to="InputPengaduan" > Input Pengaduan </Link></Item>
+          <Item icon={<AlignRightOutlined />} key="sub3_2"> <Link to="/Pengaduan" > Data Pengaduan </Link></Item>
+
+        </SubMenu>
+
+
+        <SubMenu key="sub4" icon={<CopyOutlined />} title="Pelaporan">
+          <Item icon={<AlignRightOutlined />} key="sub3_2"> <Link to="/Laporan" > Laporan </Link></Item>
+        </SubMenu>
+
+        <Item key="672" icon={<PieChartOutlined />}>
+          Manajemen User
+        </Item>
+        <Item key="67223" icon={<LogoutOutlined />}>
           <Link to="login" > Logout </Link>
         </Item>
-
       </Menu>
     </div>
   );
 }
 
-export default MenuPetugasPasar;
+export default MenuUtama;

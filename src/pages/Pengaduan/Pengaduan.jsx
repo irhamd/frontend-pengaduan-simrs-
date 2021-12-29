@@ -326,7 +326,7 @@ function Pengaduan() {
             <_Select label="Ruangan" name="lokasi_pasar" option={lokasiPasar} sm={3} val="id" caption="ruangan" />
             <_Switch label="Close" name="veri" sm={1} />
 
-            <_Button sm={1} icon={<DownloadOutlined />} primary submit style={{ marginTop: "24px" }} title="" />
+            <_Button sm={1} icon={<DownloadOutlined />} primary submit style={{ marginTop: "24px", marginBottom :"5px" }} title="" />
           </_Row>
         </Form>
         <Table

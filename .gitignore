@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+/simpel_build
 # production
 /build
 
