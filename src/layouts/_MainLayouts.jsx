@@ -8,10 +8,10 @@ import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import MenuUtama from "./Menu/MenuUtama";
 import { globalText, _Role } from "../services/Text/GlobalText";
 import { Cache } from "../services/Cache";
-import MenuPetugasPasar from "./Menu/MenuPetugasPasar";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { _Button } from "../services/Forms/Forms";
+import MenuAdmin from "./Menu/MenuAdmin";
 
 
 const { SubMenu } = Menu;
@@ -35,16 +35,10 @@ function _MainLayouts({ children }) {
   return (
     <Layout style={{ overflowX: "hidden" }} >
       <_Nav />
-      <Layout>
+      <Layout style={{background: "#4b545c"}}>
         <Sider width={256} style={{ height: "100vh", overflow: "auto", background: "#4b545c", overflowX: "hidden" }}
           className={show ? "navbarS" : "navbarM"}>
-          {
-            us.role == _Role.superadmin ?
-              <MenuUtama /> :
-              <MenuPetugasPasar />
-          }
-
-
+          <MenuAdmin />
         </Sider>
 
         <Layout style={{ padding: '0 24px 24px' }}>

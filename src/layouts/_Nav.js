@@ -51,7 +51,7 @@ function _Nav() {
 
           <_Col sm={6} style={{ display: "flex" }}>
             <div style={{ float: "right", paddingTop: "3px", marginRight: "10px" }}>
-              <Image height={40} src={logo1} preview={false} />
+              <img height={40} src={logo1} />
             </div>
             <div>
               <p style={{ fontFamily: "arial", fontWeight: "bolder", fontSize: "20px", color: "#ebdbdb", width: "100%" }}> SIMPEL <span className="inilabel"> (SISTEM INFORMASI PELAYANAN SIMRS) </span> </p>

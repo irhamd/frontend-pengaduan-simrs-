@@ -9,13 +9,15 @@ import {
 import moment from "moment";
 import { fitrah, formatNumber, getBetweenDate } from "../../services/Text/GlobalText";
 import { _Col, _Row } from "../../services/Forms/LayoutBootstrap";
-import { CheckOutlined, ClusterOutlined, DeleteColumnOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileDoneOutlined, FundViewOutlined, MinusCircleTwoTone, PlusCircleTwoTone, SecurityScanOutlined, SyncOutlined, UpCircleOutlined } from "@ant-design/icons";
+import { CheckOutlined, ClusterOutlined, DeleteColumnOutlined, DeleteOutlined, DownloadOutlined, EditOutlined, FileDoneOutlined, FundViewOutlined, MinusCircleTwoTone, PlusCircleTwoTone, SecurityScanOutlined, SyncOutlined, UpCircleOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import _Api, { baseRoute, baseURL } from "../../services/Api/_Api";
 import { _Toastr } from "../../services/Toastr/Notify/_Toastr";
 import _Autocomplete from "../../services/Forms/_Autocomplete";
 import _AutocompleteRev from "../../services/Forms/_AutocompleteRev";
 import { collection, onSnapshot } from "@firebase/firestore";
 import { db } from "../../services/firebase/firebase";
+import InputPengaduan from "./InputPengaduan";
+import EditPengaduan from "./EditPengaduan";
 
 
 
@@ -68,6 +70,14 @@ function Pengaduan() {
       ),
     },
     {
+      title: "Nama Penanggung Jawab",
+      width: 300,
+      sorter: (a, b) => a.nama - b.nama,
+      render: (_, rc) => (
+        <div > {rc.nama} </div>
+      ),
+    },
+    {
       title: "Progres",
       width: 100,
       render: (_, rc) => (
@@ -111,11 +121,21 @@ function Pengaduan() {
       ),
     },
     {
+      title: "Assign To",
+      width: 100,
+      render: (_, rc) => (
+        <div style={{ textAlign: "center" }}>
+          <Button type="primary" icon={<UserSwitchOutlined />} onClick={() => pilihPegawai(rc)} /> &nbsp;
+        </div>
+      ),
+    },
+    {
       title: "Action",
       width: 100,
       render: (_, rc) => (
         <div>
-          <Button type="primary" icon={<EditOutlined />} onClick={() => pilihPegawai(rc)} /> &nbsp;
+          <Button type="primary" icon={<EditOutlined />} style={{ background: "orange", borderColor: "orange" }}
+            onClick={() => editPengaduan(rc)} /> &nbsp;
           <Popconfirm
             title="Hapus tugas ???"
             onConfirm={() => hapusTugas(rc.id)}
@@ -218,13 +238,20 @@ function Pengaduan() {
   const [loadingDel, setloadingDel] = useState(false)
   const [loadingVerif, setloadingVerif] = useState(false)
   const [petugas, setpetugas] = useState([])
-  const [currPage, setcurrPage] = useState("1")
-  const [lokasiPasar, setLokasiPasar] = useState([])
+  const [rec, setrec] = useState(null)
+  const [dataRuangan, setdataRuangan] = useState([])
   const [showAssign, setshowAssign] = useState(false)
   const [dataPegawai, setdataPegawai] = useState([])
   const [idPegawai, setidPegawai] = useState(null)
   const [itemData, setitemData] = useState([])
+  const [showEdit, setshowEdit] = useState(true)
 
+
+  const editPengaduan = (rc) => {
+    console.log(rc);
+    setrec(rc)
+    setshowEdit(true)
+  }
 
   const [FormData] = Form.useForm()
   const loadData = (val) => {
@@ -252,6 +279,11 @@ function Pengaduan() {
       setdataPegawai(res.data)
       setloadingDel(false)
     })
+    _Api.post("getMasterData", { "masterData": "m_ruangan" }).then(res => {
+      setdataRuangan(res.data)
+      setloadingDel(false)
+    })
+
   }
 
   const hapusTugas = (id) => {
@@ -298,7 +330,7 @@ function Pengaduan() {
     //   tglakhir: moment().format('YYYY-MM-DD 23:59:49'),
     // })
 
-  }, [])
+  }, [showEdit])
 
   return (
     <div>
@@ -308,7 +340,7 @@ function Pengaduan() {
           onOk={setAssignTo}
           onCancel={() => setshowAssign(false)}>
           <Form layout="vertical">
-            <_Select label="Nama Petugas" name="petugas_pasar_id"
+            <_Select label="Nama Petugas"
               onSelect={(e) => setidPegawai(e)}
               option={dataPegawai} sm={3} val="id" sm={8} caption="namapegawai" />
           </Form>
@@ -322,11 +354,11 @@ function Pengaduan() {
           <_Row style={{ marginBottom: "400px" }}>
             <_Date sm={2} label="Tanggal Pengaduan" showTime format={"DD-MM-YYYY  HH:mm"} name="tglawal" />
             <_Date sm={2} label=" " format={"DD-MM-YYYY HH:mm"} showTime name="tglakhir" option={petugas} />
-            <_Select label="Nama Petugas" name="petugas_pasar_id" option={dataPegawai} sm={3} val="id_pegawai" caption="namapegawai" />
-            <_Select label="Ruangan" name="lokasi_pasar" option={lokasiPasar} sm={3} val="id" caption="ruangan" />
+            <_Select label="Nama Petugas" name="id_pegawai" option={dataPegawai} sm={3} val="id" caption="namapegawai" />
+            <_Select label="Ruangan" name="ruangan" option={ dataRuangan } sm={3} val="ruangan" caption="ruangan" />
             <_Switch label="Close" name="veri" sm={1} />
 
-            <_Button sm={1} icon={<DownloadOutlined />} primary submit style={{ marginTop: "24px", marginBottom :"5px" }} title="" />
+            <_Button sm={1} icon={<DownloadOutlined />} primary submit style={{ marginTop: "24px", marginBottom: "5px" }} title="" />
           </_Row>
         </Form>
         <Table
@@ -347,7 +379,11 @@ function Pengaduan() {
         />
         <br />
 
-
+        {rec && <Modal title="Edit Pengaduan" visible={showEdit} width={1000} footer={[]}
+          onCancel={() => { setshowEdit(false); setrec(null) }}>
+          <EditPengaduan rec={rec} tutup={()=>setshowEdit(false)} />
+        </Modal>
+        }
 
 
       </_MainLayouts>

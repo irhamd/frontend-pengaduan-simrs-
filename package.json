@@ -1,6 +1,7 @@
 {
   "name": "mahasiswabelajar",
   "version": "0.1.0",
+  "homepage": "http://localhost:9091/tes/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.6.2",

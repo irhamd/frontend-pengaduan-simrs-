@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import _MainLayouts from "../../layouts/_MainLayouts";
-import { _Button, _Checkbox, _Date, _Input, _Label, _Mentions, _Number, _RadioGroup, _Select, _Switch, _TitleBar, } from "../../services/Forms/Forms";
+import { _Button, _Checkbox, _Date, _Input, _Label, _Mentions, _Number, _RadioGroup, _Select, _Switch, _Text, _TitleBar, } from "../../services/Forms/Forms";
 import { Table, Radio, Divider, Input, Button, Form, Avatar, Drawer, Space, DatePicker, Spin, Popconfirm, Tooltip, Badge, Tag, Progress, Image, Rate, Checkbox, Modal, Pagination, Select, Mentions, } from "antd";
 import moment from "moment";
 import { fitrah, formatNumber, globalText, _Role } from "../../services/Text/GlobalText";
@@ -14,7 +14,7 @@ import { Cache } from "../../services/Cache";
 import { withRouter } from "react-router-dom";
 import { updateFirebase } from "../../services/firebase/UFirebase";
 
-function InputPengaduan(pr) {
+function EditPengaduan(pr) {
 
 
   const [loadingDel, setloadingDel] = useState(false)
@@ -36,18 +36,11 @@ function InputPengaduan(pr) {
 
   const simpanPengaduan = (val) => {
     setloadingDel(true)
-    _Api.post(`pengaduan-simpanPengaduan`, val).then(res => {
+    _Api.post(`pengaduan-simpanPengaduan`, { ...val, id: pr.rec.id }).then(res => {
       setloadingDel(false)
       if (res.data.sts == "1") {
         _Toastr.success("Suksess ...")
         formData.resetFields()
-        var objmessage = {
-          "title": val.isipengaduan.toUpperCase(),
-          "body": val.unitkerja,
-          "token": res.data.token
-        }
-        _Api.post(`notif-sendNotification`, objmessage).then(res => {
-        })
       } else {
         _Toastr.error("gagal simpand data ...")
 
@@ -63,6 +56,7 @@ function InputPengaduan(pr) {
       _Toastr.success("Oke .")
       loadCombo()
       setshowRuangan(false)
+      pr.tutup()
     }).catch(err => {
     })
   }
@@ -84,39 +78,25 @@ function InputPengaduan(pr) {
   }
 
   useEffect(() => {
-
-    formData.setFieldsValue({
-      tgl_survey: moment()
-    })
-    // loadData()
+    formData.setFieldsValue({...pr.rec, tgl_survey : moment( Date.parse(pr.rec.created_at) ) })
     loadCombo()
+
   }, [])
   return (
-    <_MainLayouts>
 
-
-      <_TitleBar label=" TAMBAH PENGADUAN" />
+    <div>
+      <_TitleBar label=" EDIT PENGADUAN" />
       <br />
       <p style={{ marginBlock: "10px" }}></p>
       <Form layout={"vertical"} layout={"horizontal"}
         wrapperCol={{ span: 12 }} labelCol={{ span: 5 }} onFinish={simpanPengaduan} form={formData}>
         <_Row style={{ marginBottom: "400px" }}>
           <_Select label="Nama Ruangan" name="unitkerja"
-            // onSelect={(e, f) => setruangan(f.children[1])}
             option={dataRuangan} val="ruangan" caption="ruangan" required />
-          {/* $save->unitkerja = $req['unitkerja'];
-            $save->id_ruangan = $req['id_ruangan'];
-            $save->nohp = $req['nohp'];
-            $save->isipengaduan = $req['isipengaduan'];
-            $save->assignto = $req['assignto'];
-            $save->nomorpengaduan = $req['nomorpengaduan']; */}
           <_Input label="Nama" name="nama" required />
           <_Date label="Tanggal" format={"DD/MM/YYYY HH:mm:ss"} name="tgl_survey" required />
-          <_Number label="Nomor HP" name="nohp" />
+          <_Input label="Nomor HP" name="nohp" />
           <_Input label="Isi Pengaduan / Permintaan" multiline name="isipengaduan" required />
-          {/* <_Mentions label="Isi Pengaduan / Permintaan" list={[
-            { value: "Internet Mati", caption: "Internet Mati" }
-          ]} /> */}
           <_Select label="Di tangani oleh" name="assignto" option={dataPegawai} val="id" caption="namapegawai" required />
           <_Input label="Keterangan" multiline name="keterangan" />
           <_Col sm={3} />
@@ -135,10 +115,9 @@ function InputPengaduan(pr) {
         <_Input label="Nama Ruangan / tempat keluhan" name="ruangan" onChange={(e) => setruangan(e.target.value)} required />
       </Modal>
 
+    </div>
 
-
-    </_MainLayouts>
   );
 }
 
-export default InputPengaduan;
+export default EditPengaduan;

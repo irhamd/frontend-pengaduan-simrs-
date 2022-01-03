@@ -25,21 +25,15 @@ import {
 // import logo4 from './../assets/img/icons/logo4.png'
 import { useState } from "react";
 
-function MenuUtama() {
+function MenuAdmin() {
 
   const [collapsed, setcollapsed] = useState(false)
-
-  const toggleCollapsed = () => {
-    setcollapsed(!collapsed);
-  };
-
+ 
   const { SubMenu, Item } = Menu;
 
   return (
     <div style={{ width: 256 }}>
-      <Button type="primary" onClick={toggleCollapsed} style={{ marginBottom: 16 }}>
-        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-      </Button>
+     
       <Menu
         defaultOpenKeys={['sub2', 'sub3', 'sub4']}
         mode="inline"
@@ -64,7 +58,7 @@ function MenuUtama() {
         </SubMenu>
 
         <Item key="672" icon={<PieChartOutlined />}>
-          Manajemen User
+          Ruangan
         </Item>
         <Item key="67223" icon={<LogoutOutlined />}>
           <Link to="login" > Logout </Link>
@@ -74,4 +68,4 @@ function MenuUtama() {
   );
 }
 
-export default MenuUtama;
+export default MenuAdmin;
