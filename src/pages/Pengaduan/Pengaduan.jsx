@@ -187,7 +187,7 @@ function Pengaduan() {
       ),
     },
     {
-      title: "Foto Sebelum",
+      title: "Foto Sesudah",
       width: 200,
       render: (_, rc) => (
         <div>

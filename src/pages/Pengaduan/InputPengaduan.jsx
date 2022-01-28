@@ -21,6 +21,7 @@ function InputPengaduan(pr) {
   const [showRuangan, setshowRuangan] = useState(false)
   const [dataPegawai, setdataPegawai] = useState([])
   const [dataRuangan, setdataRuangan] = useState([])
+  const [listKategori, setlistKategori] = useState([])
   const [ruangan, setruangan] = useState("")
 
 
@@ -81,6 +82,10 @@ function InputPengaduan(pr) {
       setdataRuangan(res.data)
       setloadingDel(false)
     })
+    _Api.post("getMasterData", { "masterData": "pgd_kategori" }).then(res => {
+      setlistKategori(res.data)
+      setloadingDel(false)
+    })
   }
 
   useEffect(() => {
@@ -102,21 +107,13 @@ function InputPengaduan(pr) {
         wrapperCol={{ span: 12 }} labelCol={{ span: 5 }} onFinish={simpanPengaduan} form={formData}>
         <_Row style={{ marginBottom: "400px" }}>
           <_Select label="Nama Ruangan" name="unitkerja"
-            // onSelect={(e, f) => setruangan(f.children[1])}
             option={dataRuangan} val="ruangan" caption="ruangan" required />
-          {/* $save->unitkerja = $req['unitkerja'];
-            $save->id_ruangan = $req['id_ruangan'];
-            $save->nohp = $req['nohp'];
-            $save->isipengaduan = $req['isipengaduan'];
-            $save->assignto = $req['assignto'];
-            $save->nomorpengaduan = $req['nomorpengaduan']; */}
           <_Input label="Nama" name="nama" required />
           <_Date label="Tanggal" format={"DD/MM/YYYY HH:mm:ss"} name="tgl_survey" required />
           <_Number label="Nomor HP" name="nohp" />
           <_Input label="Isi Pengaduan / Permintaan" multiline name="isipengaduan" required />
-          {/* <_Mentions label="Isi Pengaduan / Permintaan" list={[
-            { value: "Internet Mati", caption: "Internet Mati" }
-          ]} /> */}
+          <_Select label="Kategori" name="id_kategori"
+            option={listKategori} val="id" caption="kategori" required />
           <_Select label="Di tangani oleh" name="assignto" option={dataPegawai} val="id" caption="namapegawai" required />
           <_Input label="Keterangan" multiline name="keterangan" />
           <_Col sm={3} />
