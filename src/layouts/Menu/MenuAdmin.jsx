@@ -42,7 +42,7 @@ function MenuAdmin() {
         inlineCollapsed={collapsed}
       >
         <Item key="1" icon={<BarChartOutlined />}>
-          <Link to="home" > Dashboard </Link>
+          <Link to="/dashboard" > Dashboard </Link>
         </Item>
 
 

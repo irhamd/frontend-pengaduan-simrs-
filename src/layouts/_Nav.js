@@ -49,7 +49,7 @@ function _Nav() {
       <_Col sm={10} style={{ float: "right", display: "flex" }}>
         <_Row style={{ width: "100%" }}>
 
-          <_Col sm={6} style={{ display: "flex" }}>
+          <_Col sm={12} style={{ display: "flex" }}>
             <div style={{ float: "right", paddingTop: "3px", marginRight: "10px" }}>
               <img height={40} src={logo1} />
             </div>

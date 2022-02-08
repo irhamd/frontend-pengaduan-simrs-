@@ -1,262 +1,142 @@
-import React from 'react'
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
+import _MainLayouts from "../layouts/_MainLayouts";
+import { _Col, _Row } from "../services/Forms/LayoutBootstrap";
+import _Nav from "../layouts/_Nav";
+
+import background from "../assets/img/bg3.png";
+import Pie from "./Dashboard/Pie";
+import Polar from "./Dashboard/Polar";
+import Radar from "./Dashboard/RadarChart";
+import RadarChart from "./Dashboard/RadarChart";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  plugins: {
+    title: {
+      display: false,
+    },
+  },
+  responsive: true,
+  interaction: {
+    mode: "index",
+    intersect: false,
+  },
+  scales: {
+    x: {
+      stacked: true,
+    },
+    y: {
+      stacked: true,
+    },
+  },
+};
+
+const labels = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28,29,30
+];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: "Pengaduan Selesai",
+      data: [10, 20, 10, 30, 10,50,11,16,40,10,50,10,50,60,70,80,30,70,9,20,50,50,40,20,40,20,10,6,8,10],
+      backgroundColor: "#0f9a53",
+      stack: "Stack 0",
+    },
+    {
+      label: "Pengaduan Pending",
+      data: [1, 0, 0, 3, 0,5,2,0,4,0,5,1,5,6,7,3,3,7,3,2,5,0,4,2,4,2,1,6,8,1],
+      backgroundColor: "#fd7e14",
+      stack: "Stack 0",
+    },
+    {
+      label: "Tidak Direspond",
+      data: [-0, -0, -10, 0, -1,0,0,0,0,0,0,0,0,-15,0,0,-20,0,],
+      backgroundColor: "orangered",
+      stack: "Stack 0",
+    },
+  ],
+};
 
 function Dashboard() {
   return (
-    <div>
-      <div className="container-fluid p-0">
-        <h1 className="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
-        <div className="row">
-          <div className="col-xl-6 col-xxl-5 d-flex">
-            <div className="w-100">
-              <div className="row">
-                <div className="col-sm-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col mt-0">
-                          <h5 className="card-title">Sales</h5>
-                        </div>
-                        <div className="col-auto">
-                          <div className="stat text-primary">
-                            <i className="align-middle" data-feather="truck" />
-                          </div>
-                        </div>
-                      </div>
-                      <h1 className="mt-1 mb-3">2.382</h1>
-                      <div className="mb-0">
-                        <span className="text-danger"> <i className="mdi mdi-arrow-bottom-right" /> -3.65% </span>
-                        <span className="text-muted">Since last week</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col mt-0">
-                          <h5 className="card-title">Visitors</h5>
-                        </div>
-                        <div className="col-auto">
-                          <div className="stat text-primary">
-                            <i className="align-middle" data-feather="users" />
-                          </div>
-                        </div>
-                      </div>
-                      <h1 className="mt-1 mb-3">14.212</h1>
-                      <div className="mb-0">
-                        <span className="text-success"> <i className="mdi mdi-arrow-bottom-right" /> 5.25% </span>
-                        <span className="text-muted">Since last week</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col mt-0">
-                          <h5 className="card-title">Earnings</h5>
-                        </div>
-                        <div className="col-auto">
-                          <div className="stat text-primary">
-                            <i className="align-middle" data-feather="dollar-sign" />
-                          </div>
-                        </div>
-                      </div>
-                      <h1 className="mt-1 mb-3">$21.300</h1>
-                      <div className="mb-0">
-                        <span className="text-success"> <i className="mdi mdi-arrow-bottom-right" /> 6.65% </span>
-                        <span className="text-muted">Since last week</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col mt-0">
-                          <h5 className="card-title">Orders</h5>
-                        </div>
-                        <div className="col-auto">
-                          <div className="stat text-primary">
-                            <i className="align-middle" data-feather="shopping-cart" />
-                          </div>
-                        </div>
-                      </div>
-                      <h1 className="mt-1 mb-3">64</h1>
-                      <div className="mb-0">
-                        <span className="text-danger"> <i className="mdi mdi-arrow-bottom-right" /> -2.25% </span>
-                        <span className="text-muted">Since last week</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-6 col-xxl-7">
-            <div className="card flex-fill w-100">
-              <div className="card-header">
-                <h5 className="card-title mb-0">Recent Movement</h5>
-              </div>
-              <div className="card-body py-3">
-                <div className="chart chart-sm">
-                  <canvas id="chartjs-dashboard-line" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
-            <div className="card flex-fill w-100">
-              <div className="card-header">
-                <h5 className="card-title mb-0">Browser Usage</h5>
-              </div>
-              <div className="card-body d-flex">
-                <div className="align-self-center w-100">
-                  <div className="py-3">
-                    <div className="chart chart-xs">
-                      <canvas id="chartjs-dashboard-pie" />
-                    </div>
-                  </div>
-                  <table className="table mb-0">
-                    <tbody>
-                      <tr>
-                        <td>Chrome</td>
-                        <td className="text-end">4306</td>
-                      </tr>
-                      <tr>
-                        <td>Firefox</td>
-                        <td className="text-end">3801</td>
-                      </tr>
-                      <tr>
-                        <td>IE</td>
-                        <td className="text-end">1689</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
-            <div className="card flex-fill w-100">
-              <div className="card-header">
-                <h5 className="card-title mb-0">Real-Time</h5>
-              </div>
-              <div className="card-body px-4">
-                <div id="world_map" style={{ height: 350 }} />
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
-            <div className="card flex-fill">
-              <div className="card-header">
-                <h5 className="card-title mb-0">Calendar</h5>
-              </div>
-              <div className="card-body d-flex">
-                <div className="align-self-center w-100">
-                  <div className="chart">
-                    <div id="datetimepicker-dashboard" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-12 col-lg-8 col-xxl-9 d-flex">
-            <div className="card flex-fill">
-              <div className="card-header">
-                <h5 className="card-title mb-0">Latest Projects</h5>
-              </div>
-              <table className="table table-hover my-0">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th className="d-none d-xl-table-cell">Start Date</th>
-                    <th className="d-none d-xl-table-cell">End Date</th>
-                    <th>Status</th>
-                    <th className="d-none d-md-table-cell">Assignee</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Project Apollo</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-success">Done</span></td>
-                    <td className="d-none d-md-table-cell">Vanessa Tucker</td>
-                  </tr>
-                  <tr>
-                    <td>Project Fireball</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-danger">Cancelled</span></td>
-                    <td className="d-none d-md-table-cell">William Harris</td>
-                  </tr>
-                  <tr>
-                    <td>Project Hades</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-success">Done</span></td>
-                    <td className="d-none d-md-table-cell">Sharon Lessman</td>
-                  </tr>
-                  <tr>
-                    <td>Project Nitro</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-warning">In progress</span></td>
-                    <td className="d-none d-md-table-cell">Vanessa Tucker</td>
-                  </tr>
-                  <tr>
-                    <td>Project Phoenix</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-success">Done</span></td>
-                    <td className="d-none d-md-table-cell">William Harris</td>
-                  </tr>
-                  <tr>
-                    <td>Project X</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-success">Done</span></td>
-                    <td className="d-none d-md-table-cell">Sharon Lessman</td>
-                  </tr>
-                  <tr>
-                    <td>Project Romeo</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-success">Done</span></td>
-                    <td className="d-none d-md-table-cell">Christina Mason</td>
-                  </tr>
-                  <tr>
-                    <td>Project Wombat</td>
-                    <td className="d-none d-xl-table-cell">01/01/2021</td>
-                    <td className="d-none d-xl-table-cell">31/06/2021</td>
-                    <td><span className="badge bg-warning">In progress</span></td>
-                    <td className="d-none d-md-table-cell">William Harris</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="col-12 col-lg-4 col-xxl-3 d-flex">
-            <div className="card flex-fill w-100">
-              <div className="card-header">
-                <h5 className="card-title mb-0">Monthly Sales</h5>
-              </div>
-              <div className="card-body d-flex w-100">
-                <div className="align-self-center chart chart-lg">
-                  <canvas id="chartjs-dashboard-bar" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundRepeat: "repeat",
+      }}
+    >
+      <_Nav />
+      <_Row>
+        <_Col sm={12} style={{ padding: "20px 100px" }}>
+          <h4 className="titlechart">
+            DATA PENGADUAN DALAM 30 HARI TERAKHIR
+          </h4>
+          <Bar height={70} options={options} data={data} redraw />
+        </_Col>
+        <_Col sm={4} style={{ padding: "20px 100px" }}>
+          <h4 className="titlechart">
+            DATA PENGADUAN BERDASARKAN PETUGAS
+          </h4>
 
+          <Pie />
+        </_Col>
+        <_Col sm={4} style={{ padding: "20px 100px" }}>
+          <h4 className="titlechart">
+            BERDASARKAN RUANGAN
+          </h4>
+          <Polar />
+        </_Col>
+        <_Col sm={4} style={{ padding: "20px 50px" }}>
+          <h4 className="titlechart">
+            BERDASARKAN KASUS
+          </h4>
+
+          <RadarChart />
+        </_Col>
+        <_Col sm={5}>
+          <Line
+            datasetIdKey="id"
+            data={{
+              labels: ["Jun", "Jul", "Aug"],
+              datasets: [
+                {
+                  id: 1,
+                  label: "",
+                  data: [5, 6, 7],
+                },
+                {
+                  id: 2,
+                  label: "",
+                  data: [4, 12, 91],
+                },
+              ],
+            }}
+          />
+        </_Col>
+      </_Row>
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

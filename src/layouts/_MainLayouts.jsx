@@ -25,7 +25,7 @@ if (ses) {
 }
 
 
-function _MainLayouts({ children }) {
+function _MainLayouts(pr) {
   const [show, setshow] = useState(false)
 
   const setDisplay = () => {
@@ -35,7 +35,7 @@ function _MainLayouts({ children }) {
   return (
     <Layout style={{ overflowX: "hidden" }} >
       <_Nav />
-      <Layout style={{background: "#4b545c"}}>
+      <Layout style={{background: "#4b545c"}} className={pr.className}>
         <Sider width={256} style={{ height: "100vh", overflow: "auto", background: "#4b545c", overflowX: "hidden" }}
           className={show ? "navbarS" : "navbarM"}>
           <MenuAdmin />
@@ -58,7 +58,7 @@ function _MainLayouts({ children }) {
               minHeight: 280,
             }}
           >
-            {children}
+            {pr.children}
           </Content>
         </Layout>
       </Layout>

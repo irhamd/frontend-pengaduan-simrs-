@@ -15,6 +15,20 @@
     background: #fff;
 }
 
+.titlechart {
+    padding: 10px;
+    text-align: center;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(93deg, rgba(255, 255, 255, 0) 0%, #54d375 55%, rgba(255, 255, 255, 0) 100%);
+    /* background-image: linear-gradient(to right, #cde2f1, #ffffff00) */
+}
+
+.gradient {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, yellow 0%, white 100%);
+    font-weight: bold;
+}
+
 a {
     color: yellowgreen;
 }
@@ -24,7 +38,8 @@ a {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 15px;
 }
-.inimenu a{
+
+.inimenu a {
     margin: 10px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 15px;
@@ -44,6 +59,7 @@ a {
 .navbarM {
     display: block;
 }
+
 .navbarS {
     display: block;
 }
@@ -52,10 +68,12 @@ a {
     .navbarM {
         display: none;
     }
+
     .userMenu {
         display: none;
     }
-    .inilabel{
+
+    .inilabel {
         display: none;
     }
 

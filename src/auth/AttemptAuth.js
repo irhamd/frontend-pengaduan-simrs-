@@ -15,6 +15,8 @@ import { baseURL } from '../services/Api/_Api';
 import logo from "./../assets/img/logo.png"
 import _Nav from '../layouts/_Nav';
 import { _Col, _Row } from '../services/Forms/LayoutBootstrap';
+import { ResponsiveAreaBump } from '@nivo/bump'
+
 
 function AttemptAuth() {
 

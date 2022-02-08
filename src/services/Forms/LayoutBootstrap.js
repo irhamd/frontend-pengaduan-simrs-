@@ -26,7 +26,7 @@ export const _Row = (props) => {
 }
 export const _Col = (r) => {
     return (
-        <Col sm={r.sm} style={{ ...r.style, margin: "0px" }}>
+        <Col sm={r.sm} style={{ ...r.style, margin: "0px" }} style={r.style}>
             {r.children}
         </Col>
     )
