@@ -1,13 +1,23 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import img from "../../assets/img/photos/photo1.jpg"
-import { Image } from 'antd';
+// import img from "../../assets/img/photos/photo1.jpg"
+// import { Image } from 'antd';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+
+export const options = {
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+    },
+  };
+
+
 export const data = {
-    labels: ['Athar', 'AAN', 'Ridwan', 'Nanang', 'Rattih', 'Irham'],
+    labels: ['Athar', 'Rebahan', 'Ridwan', 'Nanang', 'Rattih', 'Irham'],
     datasets: [
         {
             label: '# of Votes',
@@ -25,7 +35,7 @@ export const data = {
 export default function Pie() {
     return (
         <div>
-            <Doughnut data={data} />;
+            <Doughnut data={data}  options={options} />;
         </div>
     )
 }

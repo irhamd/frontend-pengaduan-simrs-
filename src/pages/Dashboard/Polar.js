@@ -8,6 +8,16 @@ import {
 } from 'chart.js';
 import { PolarArea } from 'react-chartjs-2';
 
+
+export const options = {
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+};
+
+
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 export const data = {
@@ -30,5 +40,5 @@ export const data = {
 };
 
 export  default function Polar() {
-  return <PolarArea data={data} />;
+  return <PolarArea data={data} options={options} />;
 }

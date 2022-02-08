@@ -19,8 +19,16 @@ ChartJS.register(
   Legend
 );
 
+export const options = {
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+
 export const data = {
-  labels: ['Simrs Error', 'Jaringan Trouble', 'Perlengkapan Kantor Bermasalah', 'Lain-lain','PC Trouble'],
+  labels: ['Simrs Error', 'Jaringan Trouble', 'Perlengkapan Kantor', 'Lain-lain','PC Trouble'],
   datasets: [
     {
       label:"Kasus",
@@ -33,5 +41,8 @@ export const data = {
 };
 
 export default function  RadarChart() {
-  return <Radar data={data} />;
+  return (
+      <Radar data={data}  options={options}/>
+
+  ) 
 }
