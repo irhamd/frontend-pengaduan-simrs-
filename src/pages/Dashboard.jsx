@@ -63,29 +63,28 @@ function Dashboard() {
   const [tgl, settgl] = useState([]);
   const [selesai, setselesai] = useState([]);
   const [pending, setpending] = useState([]);
-  const [tglawal, settglawal] = useState( moment() );
-  const [tglakhir, settglakhir] = useState( moment() );
-  const [berdPetugas, setberdPetugas] = useState({});
+  const [tglawal, settglawal] = useState(moment());
+  const [tglakhir, settglakhir] = useState(moment());
+  const [bypetugas, setbypetugas] = useState([]);
+  const [byruangan, setbyruangan] = useState([]);
 
   const loadData = () => {
-    settgl([])
+    settgl([]);
     setloadingDel(true);
     _Api
       .get(`pengaduan-dashboard-get?tglawal=${tglawal}&tglakhir=${tglakhir}`)
       .then((res) => {
-        setalldata( res.data )
+        setalldata(res.data);
         res.data.chart.map((datas) => {
           setselesai((selesai) => [...selesai, datas.selesai]);
           setpending((pending) => [...pending, datas.pending]);
           settgl((tgl) => [...tgl, datas.tgl]);
         });
+        setbypetugas([]);
+        setbypetugas(res.data.bypetugas);
 
-        res.data.chart.map((datas) => {
-          setselesai((selesai) => [...selesai, datas.selesai]);
-          setpending((pending) => [...pending, datas.pending]);
-          settgl((tgl) => [...tgl, datas.tgl]);
-        });
-
+        setbyruangan([]);
+        setbyruangan(res.data.byruangan);
 
         setalldata(res.data);
         setloadingDel(false);
@@ -107,22 +106,26 @@ function Dashboard() {
       <_Row style={{ padding: "10px 100px" }}>
         <_Row style={{ itemAlign: "center" }}>
           <CekRender
-           kasus={ alldata && alldata.count[0].jumlah }
+            kasus={alldata && alldata.count[0].jumlah}
             jenis="Total Kasus"
             src={total}
             color="#ffa50085"
           />
           <CekRender kasus="20" jenis="By Call" src={call} color="#ffa50085" />
           <CekRender
-            kasus={ alldata && alldata.count[0].byapp }
+            kasus={alldata && alldata.count[0].byapp}
             jenis="By Aplikasi"
             src={phone}
             color="#ffa50085"
           />
-          <CekRender kasus={ alldata && alldata.count[0].selesai }
-          jenis="Selesai" src={done} color="#2ba662b3" />
           <CekRender
-            kasus={ alldata && alldata.count[0].pending }
+            kasus={alldata && alldata.count[0].selesai}
+            jenis="Selesai"
+            src={done}
+            color="#2ba662b3"
+          />
+          <CekRender
+            kasus={alldata && alldata.count[0].pending}
             jenis="Pending"
             src={alihkan}
             color="#ffa50085"
@@ -136,46 +139,55 @@ function Dashboard() {
                   label="Tanggal"
                   format={"DD/MM/YYYY"}
                   name="tgl_survey"
-                  onChange={(e)=> settglawal(moment(e).format('yyyy-MM-DD')) }
+                  onChange={(e) => settglawal(moment(e).format("yyyy-MM-DD"))}
                   required
                 />
               </_Col>
               <_Col sm={3}>
-                <_Date label={"s/d"} format={"DD/MM/YYYY"} name="tgl_survey"  onChange={(e)=> settglakhir(moment(e).format('yyyy-MM-DD')) } />
+                <_Date
+                  label={"s/d"}
+                  format={"DD/MM/YYYY"}
+                  name="tgl_survey"
+                  onChange={(e) => settglakhir(moment(e).format("yyyy-MM-DD"))}
+                />
               </_Col>
 
               <_Col sm={1}>
-                  <_Button size={"small"} label="Find" btnFind  onClick={ loadData } />
+                <_Button
+                  size={"small"}
+                  label="Find"
+                  btnFind
+                  onClick={loadData}
+                />
               </_Col>
             </_Row>
           </_Col>
         </_Row>
         <_Col sm={12} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">DATA PENGADUAN DALAM 30 HARI TERAKHIR</h4>
-          <Spin spinning={tgl.length == 0}>
-            {!loadingDel  && <ChartBar labels={tgl} selesai={selesai} pending= {pending} />}
-          </Spin>
+          {alldata && (
+            <ChartBar labels={tgl} selesai={selesai} pending={pending} />
+          )}
         </_Col>
         <_Col sm={4} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">BERDASARKAN PETUGAS</h4>
-
-          <Pie />
+          {alldata && <Pie bypetugas={bypetugas} />}
         </_Col>
         <_Col sm={4} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">BERDASARKAN RUANGAN</h4>
-          <Polar />
+
+          {alldata && <Polar byruangan={byruangan} />}
         </_Col>
         <_Col sm={4} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">BERDASARKAN KASUS</h4>
-          <RadarChart />
+
+          {alldata && <RadarChart bykasus={byruangan} />}
         </_Col>
         {/* <p> <link to="home">  <span> KEMBALI KE MENU </span> </link> </p> */}
         <p>
-          {" "}
           <Link to="home">
-            {" "}
-            <Button type="primary"> KEMBALI KE MENU </Button>{" "}
-          </Link>{" "}
+            <Button type="primary"> KEMBALI KE MENU </Button>
+          </Link>
         </p>
       </_Row>
     </div>

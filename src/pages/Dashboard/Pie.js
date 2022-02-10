@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 // import img from "../../assets/img/photos/photo1.jpg"
@@ -7,35 +7,57 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-export const options = {
-    plugins: {
-      legend: {
-        position: 'bottom',
-      },
-    },
-  };
+export default function Pie(pr) {
+
+    const [nama, setnama] = useState([]);
+    const [jumlah, setjumlah] = useState([]);
+
+useEffect(() => {
+    pr.bypetugas.map((datas) => {
+        setjumlah((jumlah) => [...jumlah, datas.jumlah]);
+        setnama((nama) => [...nama, datas.namapegawai]);
+      });
+}, []);
 
 
-export const data = {
-    labels: ['Athar', 'Rebahan', 'Ridwan', 'Nanang', 'Rattih', 'Irham'],
-    datasets: [
-        {
-            label: '',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-            ],
 
-            borderWidth: 0.3,
+    const options = {
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
         },
-    ],
-};
+    };
+    
+    
+    const data = {
+        labels: nama,
+        datasets: [
+            {
+                label: '',
+                data: jumlah,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    '#D2691E',
+                    '#FFFAF0',
+                    '#ADFF2F',
+                    '#3CB371',
+                    '#E0FFFF',
+                    '#6B8E23',
+                    '#A9A9A9'
+                ],
+    
+                borderWidth: 0.3,
+            },
+        ],
+    };
 
-export default function Pie() {
+    
     return (
         <div>
-            <Doughnut data={data}  options={options} />;
+            {/* <p> {JSON.stringify(nama)} </p> */}
+            <Doughnut data={data} options={options} />;
         </div>
     )
 }
