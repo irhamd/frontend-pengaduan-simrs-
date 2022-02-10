@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Chart as ChartJS,
-  RadialLinearScale,
+  
   ArcElement,
   Tooltip,
   Legend,
@@ -18,7 +18,7 @@ export const options = {
 };
 
 
-ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
+ChartJS.register( ArcElement, Tooltip, Legend);
 
 export const data = {
   labels: ['Nifas', 'Irna', 'IGD', 'Poli', 'Penunjang', 'Lain-lain'],

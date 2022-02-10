@@ -42,7 +42,7 @@ export const data = {
 
 export default function  RadarChart() {
   return (
-      <Radar data={data}  options={options}/>
+      <Radar data={data} style={{marginTop:"-40px"}} options={options}/>
 
   ) 
 }

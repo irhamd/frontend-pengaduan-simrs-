@@ -84,6 +84,7 @@ function InputPengaduan(pr) {
     })
     _Api.post("getMasterData", { "masterData": "pgd_kategori" }).then(res => {
       setlistKategori(res.data)
+      console.log('res.data', res.data);
       setloadingDel(false)
     })
   }
@@ -113,7 +114,7 @@ function InputPengaduan(pr) {
           <_Number label="Nomor HP" name="nohp" />
           <_Input label="Isi Pengaduan / Permintaan" multiline name="isipengaduan" required />
           <_Select label="Kategori" name="id_kategori"
-            option={listKategori} val="id" caption="kategori" required />
+            option={listKategori} val="id" caption="kategory" />
           <_Select label="Di tangani oleh" name="assignto" option={dataPegawai} val="id" caption="namapegawai" required />
           <_Input label="Keterangan" multiline name="keterangan" />
           <_Col sm={3} />

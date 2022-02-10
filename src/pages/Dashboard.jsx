@@ -1,18 +1,9 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar, Line } from "react-chartjs-2";
+import React, { useEffect, useState } from "react";
+
 import _MainLayouts from "../layouts/_MainLayouts";
 import { _Col, _Row } from "../services/Forms/LayoutBootstrap";
 import _Nav from "../layouts/_Nav";
-
+import { Button, Spin } from "antd";
 import background from "../assets/img/bg3.png";
 import call from "../assets/img/phone-call.png";
 import phone from "../assets/img/phone.png";
@@ -23,74 +14,20 @@ import Pie from "./Dashboard/Pie";
 import Polar from "./Dashboard/Polar";
 import Radar from "./Dashboard/RadarChart";
 import RadarChart from "./Dashboard/RadarChart";
+import { Link } from "react-router-dom";
+import { _Button, _Date } from "../services/Forms/Forms";
+import _Api from "../services/Api/_Api";
+import { BarChart } from "recharts";
+import ChartBar from "./Dashboard/ChartBar";
+import moment from "moment";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-export const options = {
-  plugins: {
-    title: {
-      display: false,
-    },
-  },
-  responsive: true,
-  interaction: {
-    mode: "index",
-    intersect: false,
-  },
-  scales: {
-    x: {
-      stacked: true,
-    },
-    y: {
-      stacked: true,
-    },
-  },
-};
-
-const labels = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27, 28, 29, 30,
-];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Pengaduan Selesai",
-      data: [
-        10, 20, 10, 30, 10, 50, 11, 16, 40, 10, 50, 10, 50, 60, 70, 80, 30, 70,
-        9, 20, 50, 50, 40, 20, 40, 20, 10, 6, 8, 10,
-      ],
-      backgroundColor: "#0f9a53",
-      stack: "Stack 0",
-    },
-    {
-      label: "Pengaduan Pending",
-      data: [
-        1, 0, 0, 3, 0, 5, 2, 0, 4, 0, 5, 1, 5, 6, 7, 3, 3, 7, 3, 2, 5, 0, 4, 2,
-        4, 2, 1, 6, 8, 1,
-      ],
-      backgroundColor: "#fd7e14",
-      stack: "Stack 0",
-    },
-    {
-      label: "Dialihkan",
-      data: [-0, -0, -10, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -15, 0, 0, -20, 0],
-      backgroundColor: "orangered",
-      stack: "Stack 0",
-    },
-  ],
-};
-
-function CekRender (pr) {
-  const info = { background: pr.color, borderRadius: "3px", marginLeft:"15px", marginTop:"5px" };
+function CekRender(pr) {
+  const info = {
+    background: pr.color,
+    borderRadius: "3px",
+    marginLeft: "15px",
+    marginTop: "5px",
+  };
   return (
     <_Col sm={2} style={info}>
       <_Row>
@@ -119,8 +56,46 @@ function CekRender (pr) {
       </_Row>
     </_Col>
   );
-};
+}
 function Dashboard() {
+  const [loadingDel, setloadingDel] = useState(false);
+  const [alldata, setalldata] = useState(null);
+  const [tgl, settgl] = useState([]);
+  const [selesai, setselesai] = useState([]);
+  const [pending, setpending] = useState([]);
+  const [tglawal, settglawal] = useState( moment() );
+  const [tglakhir, settglakhir] = useState( moment() );
+  const [berdPetugas, setberdPetugas] = useState({});
+
+  const loadData = () => {
+    settgl([])
+    setloadingDel(true);
+    _Api
+      .get(`pengaduan-dashboard-get?tglawal=${tglawal}&tglakhir=${tglakhir}`)
+      .then((res) => {
+        setalldata( res.data )
+        res.data.chart.map((datas) => {
+          setselesai((selesai) => [...selesai, datas.selesai]);
+          setpending((pending) => [...pending, datas.pending]);
+          settgl((tgl) => [...tgl, datas.tgl]);
+        });
+
+        res.data.chart.map((datas) => {
+          setselesai((selesai) => [...selesai, datas.selesai]);
+          setpending((pending) => [...pending, datas.pending]);
+          settgl((tgl) => [...tgl, datas.tgl]);
+        });
+
+
+        setalldata(res.data);
+        setloadingDel(false);
+      });
+  };
+
+  useEffect(() => {
+    // loadCombo();
+  }, []);
+
   return (
     <div
       style={{
@@ -130,16 +105,56 @@ function Dashboard() {
     >
       <_Nav />
       <_Row style={{ padding: "10px 100px" }}>
-        <_Row style={{itemAlign:"center"}}>
-          <CekRender kasus="21" jenis="Total Kasus"  src={total} color="#ffa50085" />
-          <CekRender kasus="20" jenis="By Call" src={call} color="#ffa50085"/>
-          <CekRender kasus="1" jenis="By Aplikasi" src={phone} color="#ffa50085"/>
-          <CekRender kasus="19" jenis="Selesai" src={done} color="#2ba662b3" />
-          <CekRender kasus="2" jenis="Di Alihkan" src={alihkan} color="#ffa50085"/>
-          </_Row>
+        <_Row style={{ itemAlign: "center" }}>
+          <CekRender
+           kasus={ alldata && alldata.count[0].jumlah }
+            jenis="Total Kasus"
+            src={total}
+            color="#ffa50085"
+          />
+          <CekRender kasus="20" jenis="By Call" src={call} color="#ffa50085" />
+          <CekRender
+            kasus={ alldata && alldata.count[0].byapp }
+            jenis="By Aplikasi"
+            src={phone}
+            color="#ffa50085"
+          />
+          <CekRender kasus={ alldata && alldata.count[0].selesai }
+          jenis="Selesai" src={done} color="#2ba662b3" />
+          <CekRender
+            kasus={ alldata && alldata.count[0].pending }
+            jenis="Pending"
+            src={alihkan}
+            color="#ffa50085"
+          />
+
+          <_Col sm={12}>
+            <br />
+            <_Row>
+              <_Col sm={3}>
+                <_Date
+                  label="Tanggal"
+                  format={"DD/MM/YYYY"}
+                  name="tgl_survey"
+                  onChange={(e)=> settglawal(moment(e).format('yyyy-MM-DD')) }
+                  required
+                />
+              </_Col>
+              <_Col sm={3}>
+                <_Date label={"s/d"} format={"DD/MM/YYYY"} name="tgl_survey"  onChange={(e)=> settglakhir(moment(e).format('yyyy-MM-DD')) } />
+              </_Col>
+
+              <_Col sm={1}>
+                  <_Button size={"small"} label="Find" btnFind  onClick={ loadData } />
+              </_Col>
+            </_Row>
+          </_Col>
+        </_Row>
         <_Col sm={12} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">DATA PENGADUAN DALAM 30 HARI TERAKHIR</h4>
-          <Bar height={70} options={options} data={data} redraw />
+          <Spin spinning={tgl.length == 0}>
+            {!loadingDel  && <ChartBar labels={tgl} selesai={selesai} pending= {pending} />}
+          </Spin>
         </_Col>
         <_Col sm={4} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">BERDASARKAN PETUGAS</h4>
@@ -154,26 +169,14 @@ function Dashboard() {
           <h4 className="titlechart">BERDASARKAN KASUS</h4>
           <RadarChart />
         </_Col>
-        <_Col sm={5} style={{ padding: "20px 10px" }}>
-          <Line
-            datasetIdKey="id"
-            data={{
-              labels: ["Jun", "Jul", "Aug"],
-              datasets: [
-                {
-                  id: 1,
-                  label: "",
-                  data: [5, 6, 7],
-                },
-                {
-                  id: 2,
-                  label: "",
-                  data: [4, 12, 91],
-                },
-              ],
-            }}
-          />
-        </_Col>
+        {/* <p> <link to="home">  <span> KEMBALI KE MENU </span> </link> </p> */}
+        <p>
+          {" "}
+          <Link to="home">
+            {" "}
+            <Button type="primary"> KEMBALI KE MENU </Button>{" "}
+          </Link>{" "}
+        </p>
       </_Row>
     </div>
   );
