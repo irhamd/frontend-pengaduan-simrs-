@@ -5,8 +5,8 @@ import { globalText } from '../Text/GlobalText';
 export const baseURLMaster = process.env.REACT_APP_BASE_URL
 // export const baseRoute = "http://10.138.46.80:3367/"
 // export const baseRoute = "http://10.10.102.3:3367/"
-export const baseRoute = "http://localhost:3367/"
-// export const baseRoute = "http://172.16.0.77:3367/"
+// export const baseRoute = "http://localhost:3367/"
+export const baseRoute = "http://172.16.0.77:3367/"
 export const baseURL = baseRoute + "api/"
 // export const baseURL = process.env.REACT_APP_BASE_URL_JSON_SERVER
 

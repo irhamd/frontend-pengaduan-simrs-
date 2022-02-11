@@ -37,17 +37,17 @@ export default function  RadarChart(pr) {
   useEffect(() => {
     pr.bykasus.map((datas) => {
         setjumlah((jumlah) => [...jumlah, datas.jumlah]);
-        setkasus((kasus) => [...kasus, datas.unitkerja]);
+        setkasus((kasus) => [...kasus, datas.kategory]);
       });
   }, []);
 
 
   const data = {
-    labels: ['Simrs Error', 'Jaringan Trouble', 'Perlengkapan Kantor', 'Lain-lain','PC Trouble'],
+    labels: kasus,
     datasets: [
       {
         label:"Kasus",
-        data: [8, 9, 13, 3,20],
+        data: jumlah,
         backgroundColor: '#fd7e1494',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 0.3,

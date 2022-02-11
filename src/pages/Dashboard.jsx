@@ -11,15 +11,17 @@ import total from "../assets/img/total.png";
 import done from "../assets/img/done.png";
 import alihkan from "../assets/img/alihkan.png";
 import Pie from "./Dashboard/Pie";
-import Polar from "./Dashboard/Polar";
-import Radar from "./Dashboard/RadarChart";
-import RadarChart from "./Dashboard/RadarChart";
+// import Polar from "./Dashboard/Polar";
+ 
+// import RadarChart from "./Dashboard/RadarChart";
 import { Link } from "react-router-dom";
 import { _Button, _Date } from "../services/Forms/Forms";
 import _Api from "../services/Api/_Api";
 import { BarChart } from "recharts";
 import ChartBar from "./Dashboard/ChartBar";
 import moment from "moment";
+import RadarChart from "./Dashboard/RadarChart";
+import ByRuangan from "./Dashboard/ByRuangan";
 
 function CekRender(pr) {
   const info = {
@@ -67,6 +69,7 @@ function Dashboard() {
   const [tglakhir, settglakhir] = useState(moment());
   const [bypetugas, setbypetugas] = useState([]);
   const [byruangan, setbyruangan] = useState([]);
+  const [bykategori, setbykategori] = useState([]);
 
   const loadData = () => {
     settgl([]);
@@ -74,7 +77,6 @@ function Dashboard() {
     _Api
       .get(`pengaduan-dashboard-get?tglawal=${tglawal}&tglakhir=${tglakhir}`)
       .then((res) => {
-        setalldata(res.data);
         res.data.chart.map((datas) => {
           setselesai((selesai) => [...selesai, datas.selesai]);
           setpending((pending) => [...pending, datas.pending]);
@@ -86,8 +88,12 @@ function Dashboard() {
         setbyruangan([]);
         setbyruangan(res.data.byruangan);
 
+        setbykategori([]);
+        setbykategori(res.data.bykategori);
+
         setalldata(res.data);
         setloadingDel(false);
+        setalldata(res.data);
       });
   };
 
@@ -111,7 +117,7 @@ function Dashboard() {
             src={total}
             color="#ffa50085"
           />
-          <CekRender kasus="20" jenis="By Call" src={call} color="#ffa50085" />
+          <CekRender  kasus={alldata && alldata.count[0].jumlah} jenis="By Call" src={call} color="#ffa50085" />
           <CekRender
             kasus={alldata && alldata.count[0].byapp}
             jenis="By Aplikasi"
@@ -154,7 +160,6 @@ function Dashboard() {
 
               <_Col sm={1}>
                 <_Button
-                  size={"small"}
                   label="Find"
                   btnFind
                   onClick={loadData}
@@ -165,23 +170,23 @@ function Dashboard() {
         </_Row>
         <_Col sm={12} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">DATA PENGADUAN DALAM 30 HARI TERAKHIR</h4>
-          {alldata && (
+          {!loadingDel && (
             <ChartBar labels={tgl} selesai={selesai} pending={pending} />
           )}
         </_Col>
         <_Col sm={4} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">BERDASARKAN PETUGAS</h4>
-          {alldata && <Pie bypetugas={bypetugas} />}
+          {!loadingDel && <Pie bypetugas={bypetugas} />}
         </_Col>
-        <_Col sm={4} style={{ padding: "20px 5%" }}>
+        <_Col sm={4} style={{ padding: "20px 5%", height:"300px" }}>
           <h4 className="titlechart">BERDASARKAN RUANGAN</h4>
 
-          {alldata && <Polar byruangan={byruangan} />}
+          {!loadingDel && <ByRuangan byruangan={byruangan} />}
         </_Col>
         <_Col sm={4} style={{ padding: "20px 5%" }}>
           <h4 className="titlechart">BERDASARKAN KASUS</h4>
 
-          {alldata && <RadarChart bykasus={byruangan} />}
+          {!loadingDel && <RadarChart bykasus={bykategori} />}
         </_Col>
         {/* <p> <link to="home">  <span> KEMBALI KE MENU </span> </link> </p> */}
         <p>
