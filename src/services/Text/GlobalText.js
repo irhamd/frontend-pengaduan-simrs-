@@ -80,6 +80,9 @@ export const _Role = {
 
 export function getBetweenDate(date1, date2) {
 
+    console.log('date1', date1)
+    console.log('date2', date2)
+
     const startDate = moment(date1);
     const timeEnd = date2 == "" ? moment() :  moment(date2);
     const diff = timeEnd.diff(startDate);

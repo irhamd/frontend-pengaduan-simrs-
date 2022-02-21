@@ -169,7 +169,7 @@ function Dashboard() {
           </_Col>
         </_Row>
         <_Col sm={12} style={{ padding: "20px 5%" }}>
-          <h4 className="titlechart">DATA PENGADUAN DALAM 30 HARI TERAKHIR</h4>
+          <h4 className="titlechart">DATA PENGADUAN JUMLAH PENGADUAN / TANGGAL</h4>
           {!loadingDel && (
             <ChartBar labels={tgl} selesai={selesai} pending={pending} />
           )}

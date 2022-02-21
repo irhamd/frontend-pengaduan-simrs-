@@ -92,8 +92,8 @@ function Pengaduan() {
       title: "",
       width: 250,
       render: (_, rc) => (
-        <div style={{ padding: "10px", textAlign: "right", fontWeight: "bold" }}>
-          {!rc.waktu_selesai && getBetweenDate(rc.created_at, "")}
+        <div style={{ padding: "10px", textAlign: "right", fontWeight: "" }}>
+          {!rc.waktu_selesai && getBetweenDate(rc.created_at, "")} yang lalu
         </div>
       ),
     },
@@ -111,11 +111,12 @@ function Pengaduan() {
       width: 250,
       render: (_, rc) => (
         <div style={{ display: "flex", padding: "5px" }}>
-          {rc.assignto &&
+          {rc.assignto ?
             <>
               <Image width={50} style={{ borderRadius: "50%" }} src={baseRoute + "Users/" + rc.foto} />
               <p style={{ marginTop: "20px", marginLeft: "10px" }}> {rc.namapegawai} </p>
-            </>
+            </> :
+            <b> <p style={{ marginTop: "20px", marginLeft: "10px" }}> {rc.namapegawai} </p> </b>
           }
         </div>
       ),
@@ -240,11 +241,14 @@ function Pengaduan() {
   const [petugas, setpetugas] = useState([])
   const [rec, setrec] = useState(null)
   const [dataRuangan, setdataRuangan] = useState([])
+  const [devisilain, setdevisilain] = useState([])
   const [showAssign, setshowAssign] = useState(false)
   const [dataPegawai, setdataPegawai] = useState([])
   const [idPegawai, setidPegawai] = useState(null)
+  const [alihkanke, setalihkanke] = useState(null)
   const [itemData, setitemData] = useState([])
   const [showEdit, setshowEdit] = useState(true)
+  const [alihkan, setalihkan] = useState(false)
 
 
   const editPengaduan = (rc) => {
@@ -269,6 +273,9 @@ function Pengaduan() {
   const pilihPegawai = (item) => {
     setshowAssign(true)
     setitemData(item)
+    setidPegawai( null )
+    setalihkanke( null )
+    setalihkan( false )
 
   }
 
@@ -284,6 +291,11 @@ function Pengaduan() {
       setloadingDel(false)
     })
 
+    _Api.post("getMasterData", { "masterData": "unitkerja_m" }).then(res => {
+      setdevisilain(res.data)
+      setloadingDel(false)
+    })
+
   }
 
   const hapusTugas = (id) => {
@@ -296,7 +308,9 @@ function Pengaduan() {
 
   const setAssignTo = () => {
     setloadingDel(true)
-    _Api.post("pengaduan-assignTo", { "assignto": idPegawai, "id": itemData.id }).then(res => {
+    var obj = alihkan ?  setidPegawai(null) :  setalihkan(null) 
+
+    _Api.post("pengaduan-assignTo",  { "assignto": idPegawai,"alihkanke": alihkanke , "id": itemData.id }).then(res => {
       // setdataPegawai(res.data)
       // loadData()
       FormData.submit()
@@ -341,8 +355,19 @@ function Pengaduan() {
           onCancel={() => setshowAssign(false)}>
           <Form layout="vertical">
             <_Select label="Nama Petugas"
+              value = {idPegawai}
               onSelect={(e) => setidPegawai(e)}
-              option={dataPegawai} sm={3} val="id" sm={8} caption="namapegawai" />
+              option={dataPegawai}  val="id" caption="namapegawai" />
+
+            <_Switch label="Alihkan" name="veri" sm={2} defaultChecked={ alihkan }  onChange={ e=>setalihkan(e) } />
+            { alihkan &&  
+            <_Select label="Devisi Lain"
+              value = {alihkanke}
+              onSelect={(e) => setalihkanke(e)}
+              option={devisilain}  val="id" caption="unitkerja" />
+            }
+
+
           </Form>
 
         </Modal>
